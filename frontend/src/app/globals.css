@@ -1,0 +1,878 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ─── Alfa Beauty Cosmetica — Design Tokens ─── */
+
+@theme inline {
+  /* Fluid typography */
+  --fluid-xs: clamp(0.625rem, 0.8vw, 0.75rem);
+
+  /* Shadcn semantic tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Alfa Beauty Brand Tokens */
+  --color-brand-crimson: #a4161a;
+  --color-brand-dark: #660708;
+  --color-brand-dark-crimson: #8a1114;
+  --color-brand-red: #ba181b;
+  --color-brand-bright: #e5383b;
+  --color-surface: #f6f5f0;
+  --color-surface-elevated: #fafaf7;
+  --color-border-warm: #e8e4df;
+  --color-text-muted: #737373;
+  --color-charcoal: #333333;
+  --color-whatsapp: #25d366;
+
+  /* Brand gradient stops — product cards */
+  --color-grad-alfaparf-via: #f0efec;
+  --color-grad-farmavita-via: #f0ede8;
+  --color-grad-montibello-via: #eef0ed;
+  --color-grad-gamma-from: #2a2a2a;
+  --color-grad-gamma-via: #333333;
+  --color-grad-gamma-to: #1a1a1a;
+  --color-grad-core-via: #e8e8e8;
+  --color-grad-core-to: #e0e0e0;
+  --color-grad-warm-to: #e8e6e2;
+
+  /* Mood / Depth — Yucca-inspired warmth and atmosphere */
+  --color-warm-overlay: rgba(164, 22, 26, 0.04);
+  --color-warm-shadow: rgba(102, 7, 8, 0.08);
+  --color-warm-glow: rgba(164, 22, 26, 0.06);
+  --color-depth-shadow-sm: 0 1px 2px rgba(102, 7, 8, 0.04);
+  --color-depth-shadow-md: 0 4px 12px rgba(102, 7, 8, 0.06);
+  --color-depth-shadow-lg: 0 8px 30px rgba(102, 7, 8, 0.08);
+  --color-depth-shadow-xl: 0 16px 50px rgba(102, 7, 8, 0.12);
+
+  /* Semantic status colors */
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+  --color-warning: #ca8a04;
+  --color-warning-light: #fef9c3;
+  --color-info: #2563eb;
+  --color-info-light: #dbeafe;
+  --color-error: #dc2626;
+  --color-error-light: #fee2e2;
+
+  /* Layout — mobile-first, overridden to 72px at lg in :root */
+  --header-height: 56px;
+
+  /* Easing — Yucca global ease */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-menu-open: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-menu-close: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Font */
+  --font-sans: var(--font-montserrat);
+
+  /* Radius — sharp edges for Aesop brutalism */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
+}
+
+:root {
+  --radius: 2px;
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #fafaf7;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #a4161a;
+  --primary-foreground: #ffffff;
+  --secondary: #f6f5f0;
+  --secondary-foreground: #000000;
+  --muted: #f6f5f0;
+  --muted-foreground: #737373;
+  --accent: #f6f5f0;
+  --accent-foreground: #000000;
+  --destructive: #e5383b;
+  --border: #e8e4df;
+  --input: #e8e4df;
+  --ring: #a4161a;
+}
+
+/* Responsive header height — Yucca: 9.6rem desktop / 5.6rem mobile */
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 72px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-weight: 300;
+  }
+}
+
+/* Mega-menu panel content entrance — multi-stage with blur + scale */
+@keyframes mega-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    filter: blur(4px);
+  }
+  40% {
+    opacity: 0.7;
+    transform: translateY(4px) scale(0.995);
+    filter: blur(1px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Shimmer for loading / preloader accents */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Grain noise overlay — STATIC (animation removed for performance) */
+
+@layer utilities {
+  /* ─────────────────────────────────────────────────────────────────
+   * §1  Fluid Type Scale (Yucca-inspired, 10 levels)
+   *
+   * Uses clamp() for viewport-fluid sizing without media queries.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .text-display-xl {
+    font-size: clamp(3.5rem, 7vw, 9rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+  .text-display {
+    font-size: clamp(3rem, 5.5vw, 7rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+  .text-h1 {
+    font-size: clamp(2.5rem, 4.5vw, 5.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .text-h2 {
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+  }
+  .text-h3 {
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+  .text-h4 {
+    font-size: clamp(1.25rem, 2vw, 2.25rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  .text-subtitle {
+    font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  .text-body-lg {
+    font-size: clamp(1rem, 1.2vw, 1.25rem);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .text-caption {
+    font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .text-tiny {
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* Legacy aliases (existing classes — now use clamp internally) */
+
+  .eyebrow {
+    @apply uppercase tracking-[0.2em] text-[11px] font-semibold text-muted-foreground;
+  }
+
+  .heading-display {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .heading-section {
+    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+  }
+
+  .body-prose {
+    @apply text-[14px] md:text-[15px] font-normal leading-[1.85] text-charcoal;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §2  Button Fill Sweep — Yucca pattern
+   *
+   * Background slides up from beneath on hover; label stays above.
+   * Apply .btn-animated to the button, include .btn-fill span and
+   * .btn-label wrapper inside.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .btn-animated {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-animated .btn-fill {
+    position: absolute;
+    inset: 0;
+    transform: translateY(104%);
+    transition: transform 0.5s var(--ease);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .btn-animated:hover .btn-fill {
+    transform: translateY(0);
+  }
+  .btn-animated .btn-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.5s var(--ease);
+  }
+  /* Text color swap when fill is visible */
+  .btn-animated:hover .btn-label {
+    color: var(--btn-fill-text, inherit);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §3  Text Reveal — Yucca line-by-line stagger
+   *
+   * Each .reveal-line clips its <span>; the span slides up from
+   * 110% when .is-visible is applied by IntersectionObserver.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .reveal-text .reveal-line {
+    display: block;
+    overflow: hidden;
+  }
+  .reveal-text .reveal-line > span {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 0.8s var(--ease);
+  }
+  .reveal-text.is-visible .reveal-line > span {
+    transform: translateY(0);
+  }
+  .reveal-text.is-visible .reveal-line:nth-child(1) > span { transition-delay: 0.06s; }
+  .reveal-text.is-visible .reveal-line:nth-child(2) > span { transition-delay: 0.14s; }
+  .reveal-text.is-visible .reveal-line:nth-child(3) > span { transition-delay: 0.22s; }
+  .reveal-text.is-visible .reveal-line:nth-child(4) > span { transition-delay: 0.30s; }
+  .reveal-text.is-visible .reveal-line:nth-child(5) > span { transition-delay: 0.38s; }
+  .reveal-text.is-visible .reveal-line:nth-child(6) > span { transition-delay: 0.46s; }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §3b  Text Reveal V3 — Per-word stagger (GSAP SplitText equivalent)
+   *
+   * Each word is masked inside .reveal-line-v3 and slides up.
+   * The --word-index CSS variable controls per-word delay.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .reveal-text-v3 .reveal-line-v3 {
+    display: block;
+    overflow: hidden;
+  }
+  .reveal-text-v3 .reveal-word {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.65s var(--ease), filter 0.65s var(--ease);
+    transition-delay: calc(var(--word-index, 0) * var(--stagger-ms, 35ms));
+  }
+  .reveal-text-v3.is-visible .reveal-word {
+    transform: translateY(0);
+  }
+
+  /* Blur variant — add .reveal-blur to the container */
+  .reveal-text-v3.reveal-blur .reveal-word {
+    filter: blur(4px);
+  }
+  .reveal-text-v3.reveal-blur.is-visible .reveal-word {
+    filter: blur(0);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §4  Link Underline Animation — Yucca pattern
+   *
+   * A solid 1 px underline grows from the left; on hover it
+   * shrinks toward the right, then reappears from the left.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .link-animated {
+    position: relative;
+    text-decoration: none;
+  }
+  .link-animated::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(1);
+    transform-origin: left center;
+    transition: transform 0.7s var(--ease);
+  }
+  .link-animated:hover::after {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §5  Image Hover Zoom — Yucca pattern
+   * ───────────────────────────────────────────────────────────────── */
+
+  .img-zoom-wrapper {
+    overflow: hidden;
+  }
+  .img-zoom-wrapper img,
+  .img-zoom-wrapper .img-zoom-target {
+    transition: transform 0.8s var(--ease);
+    will-change: transform;
+  }
+  .img-zoom-wrapper:hover img,
+  .img-zoom-wrapper:hover .img-zoom-target,
+  .group:hover .img-zoom-wrapper img,
+  .group:hover .img-zoom-wrapper .img-zoom-target {
+    transform: scale(1.08);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §5b  Grain Texture Overlay
+   *
+   * Apply .grain-overlay to a parent with position:relative.
+   * Creates a subtle film-grain noise texture for cinematic mood.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  /* Stronger grain for hero-level sections */
+  .grain-overlay-strong::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  /* Lighter grain for cards / smaller surfaces */
+  .grain-overlay-subtle::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.015;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §5c  Gradient Fade Masks — marquee/carousel edge fading
+   *
+   * Creates soft L/R transparency masks on horizontally
+   * scrolling containers.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .fade-mask-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .fade-mask-x-subtle {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 3%,
+      black 97%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 3%,
+      black 97%,
+      transparent
+    );
+  }
+
+  /* ── Scrollbar hide utility (horizontal carousels) ── */
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §6  Depth Shadows — warm-tinted elevation system
+   * ───────────────────────────────────────────────────────────────── */
+
+  .shadow-warm-sm { box-shadow: var(--color-depth-shadow-sm); }
+  .shadow-warm-md { box-shadow: var(--color-depth-shadow-md); }
+  .shadow-warm-lg { box-shadow: var(--color-depth-shadow-lg); }
+  .shadow-warm-xl { box-shadow: var(--color-depth-shadow-xl); }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §6b  Glassmorphism — Yucca frosted-glass overlays
+   *
+   * Use .glass on light backgrounds, .glass-dark on dark/image overlays.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-surface {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Warm-tinted glass — for brand-infused overlays */
+  .glass-warm {
+    background: rgba(164, 22, 26, 0.04);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid rgba(164, 22, 26, 0.08);
+  }
+
+  /* Strong glass — deeper blur for hero/feature glass badges */
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §6c  Animated Border Grow — line/divider utility
+   *
+   * Apply .border-grow-x for a horizontal line that grows from left,
+   * or .border-grow-y for a vertical line that grows from top.
+   * Use with IntersectionObserver: add .is-visible when in view.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .border-grow-x {
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1s var(--ease);
+  }
+  .border-grow-x.is-visible {
+    transform: scaleX(1);
+  }
+
+  .border-grow-y {
+    width: 1px;
+    background: currentColor;
+    transform: scaleY(0);
+    transform-origin: top center;
+    transition: transform 1s var(--ease);
+  }
+  .border-grow-y.is-visible {
+    transform: scaleY(1);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §6d  Shimmer Bar — progress/loading accent
+   *
+   * Place .shimmer-bar inside a relative container for a sweeping
+   * light effect over loading bars.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .shimmer-bar {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+    animation: shimmer 2s infinite;
+    pointer-events: none;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §6e  Vertical Fade Mask — top/bottom edge fading
+   * ───────────────────────────────────────────────────────────────── */
+
+  .fade-mask-y {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+   * §7  Marquee — Yucca infinite horizontal scroll
+   *
+   * Duplicate inner content so the loop is seamless. Apply
+   * .marquee-track to the flex container holding two copies.
+   * ───────────────────────────────────────────────────────────────── */
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .marquee-track-reverse {
+    display: flex;
+    width: max-content;
+    animation: marquee-reverse var(--marquee-duration, 40s) linear infinite;
+  }
+  .marquee-track-reverse:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* ─── Marquee keyframes ─── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §8  Reduced Motion — Yucca accessibility pattern
+ *
+ * Disables all animation / transition when the user prefers it.
+ * ───────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §9  Enhanced Mood — cinematic atmosphere utilities
+ *
+ * Depth, warmth, and cinematic grain for premium aesthetic.
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Ambient warm vignette — soft radial shadow on sections */
+  .vignette-warm::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      rgba(102, 7, 8, 0.03) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Ken Burns ambient pan for background images */
+  /* Ken Burns removed for performance — use CSS transform directly if needed */
+  /* Drag cursor states for carousels */
+  .cursor-grab-active {
+    cursor: grab;
+  }
+  .cursor-grab-active:active {
+    cursor: grabbing;
+  }
+
+  /* Counter pulse glow on completion */
+  .counter-glow {
+    animation: counter-pulse-glow 0.6s ease-out;
+  }
+
+  /* Mega-menu panel image hover zoom */
+  .menu-img-zoom {
+    overflow: hidden;
+  }
+  .menu-img-zoom img {
+    transition: transform 1.2s var(--ease), filter 1.2s var(--ease);
+  }
+  .menu-img-zoom:hover img,
+  .group:hover .menu-img-zoom img {
+    transform: scale(1.06);
+    filter: brightness(1.05);
+  }
+
+  /* Snap scroll for carousels */
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .snap-start {
+    scroll-snap-align: start;
+  }
+}
+
+@keyframes ken-burns-pan {
+  0% { transform: scale(1.08) translate(0%, 0%); }
+  50% { transform: scale(1.14) translate(-1.5%, 1%); }
+  100% { transform: scale(1.1) translate(1%, -0.5%); }
+}
+
+@keyframes counter-pulse-glow {
+  0% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+  50% { text-shadow: 0 0 20px rgba(164, 22, 26, 0.25); transform: scale(1.06); }
+  100% { text-shadow: 0 0 0 transparent; transform: scale(1); }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §10  Announcement Bar
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .announcement-bar {
+    background: linear-gradient(90deg, var(--color-foreground) 0%, #1a1a1a 100%);
+    color: var(--color-background);
+    font-size: var(--fluid-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §11  Pre-footer CTA Banner — enhanced with warm glow + depth
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .pre-footer-cta {
+    position: relative;
+    overflow: hidden;
+  }
+  .pre-footer-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse at 30% 50%,
+        rgba(164, 22, 26, 0.08) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse at 70% 30%,
+        rgba(164, 22, 26, 0.04) 0%,
+        transparent 50%
+      );
+    pointer-events: none;
+  }
+  .pre-footer-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §12  Enhanced Mega-menu panel styles — 5-phase card orchestration
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .mega-card-5phase {
+    position: relative;
+    overflow: hidden;
+  }
+  .mega-card-5phase .card-border {
+    transform-origin: left;
+  }
+  /* Subtle warm glow on dark mega-menu cards */
+  .mega-card-5phase:hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 100%,
+      rgba(164, 22, 26, 0.06) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §13  Pillar CTA cards in hero
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .pillar-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background 0.6s var(--ease), border-color 0.6s var(--ease),
+      transform 0.6s var(--ease);
+  }
+  .pillar-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+    transform: translateY(-4px);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §14  Will-change performance hints
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .will-change-filter {
+    will-change: filter;
+  }
+  .will-change-clip {
+    will-change: clip-path;
+  }
+  .will-change-backdrop {
+    will-change: backdrop-filter;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * §15  Trust badge row
+ * ───────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 9999px;
+    font-size: var(--fluid-xs);
+    color: rgba(0, 0, 0, 0.45);
+    transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .trust-badge:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.65);
+  }
+}

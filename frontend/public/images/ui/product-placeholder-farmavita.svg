@@ -1,0 +1,7 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" fill="#F5F7FA"/>
+  <circle cx="400" cy="400" r="80" stroke="#A4161A" stroke-width="2" opacity="0.5"/>
+  <text x="400" y="405" font-family="serif" font-size="32" text-anchor="middle" fill="#A4161A" font-style="italic">f</text>
+  <text x="400" y="550" font-family="sans-serif" font-size="24" text-anchor="middle" fill="#333" letter-spacing="2">FARMAVITA</text>
+  <text x="400" y="650" font-family="sans-serif" font-size="14" text-anchor="middle" fill="#999">IMAGE COMING SOON</text>
+</svg>

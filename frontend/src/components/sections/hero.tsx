@@ -1,0 +1,178 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { FadeIn } from "@/components/motion/fade-in";
+import { ScrollIndicator } from "@/hooks/use-animations";
+import { NAV_LINKS, ESTABLISHED_YEAR, PILLARS } from "@/lib/config";
+import { PARALLAX, HERO_TIMING, cinematicEase, pillarCardStagger, pillarCardReveal, smoothEase } from "@/lib/motion";
+
+/* ─────────────────────────────────────────────────────────────────────
+ * HeroSection V8 — Cinematic hero with enhanced depth & atmosphere.
+ *
+ * V9 upgrades over V8:
+ *   - Pillar CTA cards (GAP-HERO-02): 3 glass cards for Products/Education/Partnership
+ *   - Will-change filter hint (GAP-PERF-01) for blur performance
+ *   - Enhanced orchestration: pillar cards appear after CTA buttons
+ * ───────────────────────────────────────────────────────────────────── */
+export function HeroSection(): React.JSX.Element {
+    const videoRef = React.useRef<HTMLVideoElement>(null);
+    const sectionRef = React.useRef<HTMLElement>(null);
+
+    React.useEffect(() => {
+        const video = videoRef.current;
+        const section = sectionRef.current;
+        if (!video || !section) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.src = "/videos/hero-bg.mp4";
+                    video.load();
+                    video.play().catch(() => {});
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.1 }
+        );
+        observer.observe(section);
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <section
+            ref={sectionRef}
+            className="relative flex min-h-screen items-center overflow-hidden bg-foreground"
+        >
+            {/* Background video — static, no parallax tracking */}
+            <div className="pointer-events-none absolute inset-0 z-0">
+                <video
+                    ref={videoRef}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    poster="/videos/hero-poster.jpg"
+                    disablePictureInPicture
+                    disableRemotePlayback
+                    aria-hidden="true"
+                />
+            </div>
+
+            {/* Simplified gradient overlay — 2 layers instead of 5 for performance */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+            </div>
+
+            {/* Product cutout removed per user request */}
+
+            {/* Content — orchestrated delays via HERO_TIMING */}
+            <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 sm:px-8 lg:px-12">
+                <div className="max-w-3xl pt-[var(--header-height)]">
+                    <FadeIn delay={HERO_TIMING.eyebrow} blur scale>
+                        <p className="eyebrow text-white/45">
+                            Established since {ESTABLISHED_YEAR}
+                        </p>
+                    </FadeIn>
+
+                    <div className="mt-5">
+                        <TextReveal
+                            as="h1"
+                            className="heading-display text-white"
+                            delay={HERO_TIMING.heading}
+                            rootMargin="0px"
+                            split="char"
+                            blur
+                            lines={[
+                                "Connecting Global",
+                                "Hair Innovation to",
+                                "Indonesia\u2019s Professionals",
+                            ]}
+                        />
+                    </div>
+
+                    <FadeIn delay={HERO_TIMING.body} blur>
+                        <p className="mt-8 max-w-xl body-prose text-white/50">
+                            Exclusive importer and distributor of leading Italian
+                            and Spanish professional haircare brands, serving
+                            Indonesia&apos;s salon and barber industry for over
+                            18 years.
+                        </p>
+                    </FadeIn>
+
+                    <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <FadeIn delay={HERO_TIMING.cta} direction="up" blur>
+                            <AnimatedButton
+                                href={NAV_LINKS.products}
+                                fillClass="bg-white"
+                                fillTextClass="text-brand-crimson"
+                                className="bg-brand-crimson text-white hover:bg-brand-crimson"
+                            >
+                                Explore Our Brands
+                                <ArrowRight className="h-4 w-4" />
+                            </AnimatedButton>
+                        </FadeIn>
+
+                        <FadeIn delay={HERO_TIMING.cta + 0.12} direction="up" blur>
+                            <Button
+                                asChild
+                                variant="outline"
+                                size="lg"
+                                className="border-white/20 bg-transparent px-8 py-6 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-[border-color,background-color] duration-500 hover:border-white/50 hover:bg-white/8"
+                            >
+                                <Link href={NAV_LINKS.partnership}>Partner With Us</Link>
+                            </Button>
+                        </FadeIn>
+                    </div>
+
+                    {/* ─── Pillar CTA Cards ─── GAP-HERO-02 */}
+                    <motion.div
+                        variants={pillarCardStagger}
+                        initial="hidden"
+                        animate="visible"
+                        className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl"
+                        style={{ animationDelay: `${HERO_TIMING.cta + 0.4}s` }}
+                    >
+                        {PILLARS.map((pillar, i) => (
+                            <motion.div key={pillar.label} variants={pillarCardReveal}>
+                                <Link
+                                    href={pillar.href}
+                                    className="pillar-card group block rounded-lg p-5 will-change-backdrop"
+                                >
+                                    <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">
+                                        0{i + 1}
+                                    </span>
+                                    <span className="block text-sm font-semibold text-white mb-1.5 tracking-wide">
+                                        {pillar.label}
+                                    </span>
+                                    <span className="block text-xs font-light text-white/40 leading-relaxed line-clamp-2">
+                                        {pillar.description}
+                                    </span>
+                                    <ArrowRight className="mt-3 size-3.5 text-white/30 transition-[color,transform] duration-500 group-hover:text-white/70 group-hover:translate-x-1" />
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Bottom gradient bleed into next section */}
+            <motion.div
+                className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-background via-background/40 to-transparent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: HERO_TIMING.eyebrow + 0.2, duration: 1.4, ease: cinematicEase }}
+            />
+
+            <ScrollIndicator />
+        </section>
+    );
+}
