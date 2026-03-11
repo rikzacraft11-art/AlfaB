@@ -106,16 +106,15 @@ export function AboutSection(): React.JSX.Element {
                                 viewport={{ once: true, amount: 0.2 }}
                                 transition={{ duration: 1.5, ease: cinematicEase }}
                             >
-                                <div className="relative h-full w-full" style={{ transform: 'scale(1.08)' }}>
-                                    <Image
-                                        src="/images/brands/alfaparf-milano.webp"
-                                        alt="Alfaparf Milano professional haircare products"
-                                        fill
-                                        sizes="40vw"
-                                        className="object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/15 via-transparent to-transparent" />
+                                <div className="relative h-full w-full bg-surface/50 border border-border-warm/20 flex items-center justify-center" style={{ transform: 'scale(1.08)' }}>
+                                    <div className="absolute inset-0 bg-gradient-to-br from-surface to-background opacity-90" />
+                                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(164,22,26,0.06)_0%,transparent_60%)]" />
+                                    <div className="relative flex flex-col items-center justify-center z-10 opacity-30">
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-foreground mb-4">Space for Image</span>
+                                        <div className="h-[1px] w-16 bg-foreground" />
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/10 via-transparent to-transparent pointer-events-none" />
                                 </div>
                             </motion.div>
 

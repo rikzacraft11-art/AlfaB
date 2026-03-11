@@ -144,6 +144,7 @@ export function SiteHeader(): React.JSX.Element {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.65, ease: smoothEase }}
                     aria-hidden="true"
+                    style={{ willChange: "opacity", transform: "translateZ(0)" }}
                 >
                     <div className="absolute inset-0 bg-foreground/60 backdrop-blur-[8px]" />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10" />
